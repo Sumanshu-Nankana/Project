@@ -14,6 +14,7 @@ app = Flask(__name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 @app.route('/')
+@app.route('/home')
 def home():
     title = 'Home'
     return render_template('home.html', title=title)
@@ -117,4 +118,4 @@ def see_graph():
     return render_template('graph.html')
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(debug=True)
