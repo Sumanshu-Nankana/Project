@@ -2,26 +2,24 @@ FROM ubuntu:20.04
 
 RUN apt-get update && apt-get install -y python3 python3-pip sudo
 
-RUN useradd -m sumanshu
+COPY ./requirements.txt /app/requirements.txt
 
-RUN chown -R sumanshu:sumanshu /home/sumanshu
+WORKDIR /app
 
-COPY ./requirements.txt /home/sumanshu/app/requirements.txt
+COPY ./src /app/src
 
-COPY ./src /home/sumanshu/app/src
+COPY ./model /app/model
 
-COPY ./model /home/sumanshu/app/model
+COPY ./static /app/static
 
-COPY ./static /home/sumanshu/app/static
+COPY ./templates /app/templates
 
-COPY ./templates /home/sumanshu/app/templates
+COPY ./app.py /app/app.py
 
-COPY ./app.py /home/sumanshu/app/app.py
+COPY ./Dockerfile /app/Dockerfile
 
-COPY ./Dockerfile /home/sumanshu/app/Dockerfile
+RUN pip3 install -r requirements.txt
 
-USER sumanshu
+ENTRYPOINT [ "python3" ]
 
-RUN cd /home/sumanshu/app/ && pip3 install -r requirements.txt
-
-WORKDIR /home/sumanshu/app
+CMD [ "app.py" ]
